@@ -1,12 +1,10 @@
-﻿namespace RPGhra;
-
-public class Player
+﻿public class Player
 {
     public string Name;
-    public int Health = 100;
-    public int AttackPower  = 20;
-    public int Gold = 0;
-    public int Potions = 5;
+    public int Health;
+    public int AttackPower;
+    public int Gold;
+    public int Potions;
 
     public Player(string name, int health, int attackPower, int gold, int potions)
     {
@@ -24,12 +22,11 @@ public class Player
 
     public void UseHealthPotion()
     {
-        int healAmount = 20;
         if (Potions > 0)
         {
-            Health += healAmount;
+            Health += 20;
             Potions--;
-            Console.WriteLine($"{Name} použil léčivý lektvar a obnovil {healAmount} životů. Aktuální životy: {Health}. Aktuální lektvary: {Potions}.");   
+            Console.WriteLine($"{Name} použil léčivý lektvar. Aktuální životy: {Health}. Aktuální lektvary: {Potions}.");
         }
         else
         {

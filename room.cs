@@ -89,6 +89,7 @@
 
         public void Enter()
         {
+            Console.Clear();
             Console.WriteLine($"Narazil jsi na nepřítele: {Enemy.Name}!");
         }
     }

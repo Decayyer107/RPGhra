@@ -31,11 +31,11 @@ public class Enemy
 
         while (player.Health > 0 && enemy.Health > 0)
         {
-            // Player's turn to attack
             Console.WriteLine("Co chceš udělat?");
             Console.WriteLine("1. Útok");
             Console.WriteLine("2. Použít léčivý lektvar");
             string action = Console.ReadLine();
+            Console.Clear();
 
             if (action == "1")
             {

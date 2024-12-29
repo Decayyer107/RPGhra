@@ -1,60 +1,67 @@
-﻿namespace RPGhra;
-
-class Program
+﻿namespace RPGhra
 {
-    static void Main(string[] args)
+    class Program
     {
-        Random random = new Random();
-
-        Console.WriteLine("Zadejte své jméno, dobrodruhu:");
-        string playerName = Console.ReadLine();
-        Console.Clear();
-
-        Player player = new Player(playerName, 100, 20, 0, 5);
-        int roomsCleared = 0;
-
-        while (player.Health > 0)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Vyber si dveře: 1, 2 nebo 3.");
-            string choice = Console.ReadLine();
+            Random random = new Random();
+            Console.WriteLine("Zadejte své jméno, dobrodruhu:");
+            string playerName = Console.ReadLine();
             Console.Clear();
 
-            Room currentRoom = Room.GenerateRoom();
+            Player player = new Player(playerName, 100, 20, 0, 5);
+            int roomsCleared = 0;
 
-            Console.WriteLine(currentRoom.Description.ToUpper());
+            while (player.Health > 0)
+            {
+                Console.WriteLine("Vyber si dveře: 1, 2 nebo 3.");
+                string choice = Console.ReadLine();
+                Console.Clear();
 
-            if (currentRoom is TreasureRoom treasureRoom)
-            {
-                treasureRoom.Enter();
-                player.Gold += treasureRoom.TreasureAmount;
-            }
-            else if (currentRoom is EnemyRoom enemyRoom)
-            {
-                enemyRoom.Enter();
-                Enemy.Combat(player, enemyRoom.Enemy);
-            }
-            else if (currentRoom is TreasureAndEnemyRoom treasureAndEnemyRoom)
-            {
-                treasureAndEnemyRoom.Enter();
-                Enemy.Combat(player, treasureAndEnemyRoom.Enemy);
+                Room currentRoom = Room.GenerateRoom();
+
+                Console.WriteLine(currentRoom.Description.ToUpper());
+
+                if (currentRoom is TreasureRoom treasureRoom)
+                {
+                    Console.Clear();
+                    treasureRoom.Enter();
+                    player.Gold += treasureRoom.TreasureAmount;
+                }
+                else if (currentRoom is EnemyRoom enemyRoom)
+                {
+                    Console.Clear();
+                    enemyRoom.Enter();
+                    Enemy.Combat(player, enemyRoom.Enemy);
+                }
+                else if (currentRoom is TreasureAndEnemyRoom treasureAndEnemyRoom)
+                {
+                    Console.Clear();
+                    treasureAndEnemyRoom.Enter();
+                    Enemy.Combat(player, treasureAndEnemyRoom.Enemy);
+
+                    if (player.Health > 0)
+                    {
+                        player.Gold += treasureAndEnemyRoom.TreasureAmount;
+                    }
+                }
 
                 if (player.Health > 0)
                 {
-                    player.Gold += treasureAndEnemyRoom.TreasureAmount;
+                    roomsCleared++;
+                    Console.WriteLine(
+                        $"Pokračujeme dál! Počet vyčištěných místností: {roomsCleared}. Získané zlaťáky: {player.Gold}. Aktuální zdraví: {player.Health}.");
                 }
             }
 
-            if (player.Health > 0)
+            Console.Clear();
+            Console.WriteLine("Hra skončila! Zemřel jsi noobe...");
+            Console.WriteLine($"Vyčištěné místnosti: {roomsCleared}");
+            Console.WriteLine($"Celkový počet získaných zlaťáků: {player.Gold}");
+            if (player.Health < 20)
             {
-                roomsCleared++;
-                Console.Clear();
-;               Console.WriteLine($"Pokračujeme dál! Počet vyčištěných místností: {roomsCleared}. Získané zlaťáky: {player.Gold}. Aktuální zdraví: {player.Health}.");
+                Console.WriteLine("nic moc, příště se snaž více");
             }
         }
-
-        Console.Clear();
-        Console.WriteLine("Hra skončila! Zemřel jsi noobe...");
-        Console.WriteLine($"Vyčištěné místnosti: {roomsCleared}");
-        Console.WriteLine($"Celkový počet získaných zlaťáků: {player.Gold}");
     }
 }
