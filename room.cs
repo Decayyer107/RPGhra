@@ -8,7 +8,58 @@
         {
             Description = description;
         }
-        
+
+        public static Room GenerateRoom()
+        {
+            Random random = new Random();
+            int roomType = random.Next(1, 4);
+            Room generatedRoom;
+
+            switch (roomType)
+            {
+                case 1:
+                    generatedRoom = new TreasureRoom(random.Next(1, 11));
+                    break;
+
+                case 2:
+                    Enemy enemy = GenerateRandomEnemy();
+                    generatedRoom = new EnemyRoom(enemy);
+                    break;
+
+                case 3:
+                    Enemy enemyForComboRoom = GenerateRandomEnemy();
+                    generatedRoom = new TreasureAndEnemyRoom(random.Next(1, 11), enemyForComboRoom);
+                    break;
+
+                default:
+                    throw new InvalidOperationException("nn bro");
+            }
+
+            return generatedRoom;
+        }
+
+        private static Enemy GenerateRandomEnemy()
+        {
+            Random random = new Random();
+            int enemyType = random.Next(1, 5);
+
+            switch (enemyType)
+            {
+                case 1:
+                    return new Goblin();
+                case 2:
+                    return new Orc();
+                case 3:
+                    return new Skeleton();
+                case 4:
+                    return new Dragon();
+                default:
+                    throw new Exception("nn bro");
+                    break;
+                    
+            }
+        }
+
     }
 
     public class TreasureRoom : Room

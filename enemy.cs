@@ -24,6 +24,48 @@ public class Enemy
         if (Health < 0) Health = 0;
         Console.WriteLine($"{Name} obdržel {damage} poškození. Zbývající životy: {Health}.");
     }
+
+    public static void Combat(Player player, Enemy enemy)
+    {
+        Console.WriteLine($"Boj začíná! {player.Name} vs {enemy.Name}");
+
+        while (player.Health > 0 && enemy.Health > 0)
+        {
+            // Player's turn to attack
+            Console.WriteLine("Co chceš udělat?");
+            Console.WriteLine("1. Útok");
+            Console.WriteLine("2. Použít léčivý lektvar");
+            string action = Console.ReadLine();
+
+            if (action == "1")
+            {
+                enemy.TakeDamage(player.AttackPower);
+                if (enemy.Health <= 0)
+                {
+                    Console.WriteLine($"Porazil jsi {enemy.Name}!");
+                    break;
+                }
+            }
+            else if (action == "2")
+            {
+                player.UseHealthPotion();
+            }
+            else
+            {
+                Console.WriteLine("Neplatná akce!");
+            }
+
+            Console.WriteLine($"{enemy.Name} útočí!");
+            player.Health -= enemy.AttackPower;
+            Console.WriteLine($"{player.Name} obdržel {enemy.AttackPower} poškození. Zbývající životy: {player.Health}");
+
+            if (player.Health <= 0)
+            {
+                Console.WriteLine("Byl jsi poražen lol");
+                break;
+            }
+        }
+    }
 }
 
 public class Goblin : Enemy
@@ -32,7 +74,7 @@ public class Goblin : Enemy
 
     public void Attack()
     {
-        Console.WriteLine($"{Name} rychle útočí s sílou {AttackPower}!");
+        Console.WriteLine($"{Name} tě bije do nohy se sílou {AttackPower}!");
     }
 }
 
@@ -42,7 +84,7 @@ public class Orc : Enemy
 
     public void Attack()
     {
-        Console.WriteLine($"{Name} útočí silně s sílou {AttackPower}!");
+        Console.WriteLine($"{Name} útočí se sílou {AttackPower}!");
     }
 }
 
@@ -52,7 +94,7 @@ public class Skeleton : Enemy
 
     public void Attack()
     {
-        Console.WriteLine($"{Name} útočí ze stínu s sílou {AttackPower}!");
+        Console.WriteLine($"{Name} na tebe mrdá šípy se sílou {AttackPower}!");
     }
 }
 
@@ -64,6 +106,7 @@ public class Dragon : Enemy
 
     public void Attack()
     {
-        Console.WriteLine($"{Name} chrlí oheň s sílou {AttackPower}!");
+        Console.WriteLine($"{Name} šálí oheň s sílou {AttackPower}!");
     }
 }
+

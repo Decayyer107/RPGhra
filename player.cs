@@ -33,7 +33,7 @@ public class Player
         }
         else
         {
-            Console.WriteLine("Už nemáš žádné lektvary zdraví!");
+            Console.WriteLine("Už nemáš žádné lektvary blbečku.");
         }
     }
 }
